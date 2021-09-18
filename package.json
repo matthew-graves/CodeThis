@@ -11,7 +11,8 @@
 	],
 	"activationEvents": [
 		"onCommand:explain-this.explainThisSingleLine",
-		"onCommand:explain-this.explainThisSingleSentence"
+		"onCommand:explain-this.explainThisSingleSentence",
+		"onCommand:explain-this.explainThisMultiLine"
 
 	],
 	"main": "./out/extension.js",
@@ -26,6 +27,11 @@
 				"command": "explain-this.explainThisSingleSentence",
 				"title": "ExplainThis! with a Single Sentence",
 				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+			},
+			{
+				"command": "explain-this.explainThisMultiLine",
+				"title": "ExplainThis! with a Multiline Comment",
+				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 			}
 		],
 		"menus": {
@@ -38,6 +44,11 @@
 				{
 					"command": "explain-this.explainThisSingleSentence",
 					"group": "explain-this@2",
+					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+				},
+				{
+					"command": "explain-this.explainThisMultiLine",
+					"group": "explain-this@3",
 					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 				}
 			]
