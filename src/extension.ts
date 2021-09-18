@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 import * as OpenAI from "openai-api";
 
 
-
 const getExtensionCommandDisposable = (config: any) => {
 
 	return vscode.commands.registerCommand('explain-this.explainThis', async () => {
@@ -30,16 +29,16 @@ const getExtensionCommandDisposable = (config: any) => {
 					(async () => {
 						const gptResponse = await ai.complete({
 							engine: 'davinci-codex',
-							prompt: word + '\n\n# Explanation of what the code does\n\n# ',
+							prompt: word + '\n\n# Explanation of what the code above does\n\n#',
 							maxTokens: 2048,
 							temperature: 0,
 							topP: 1,
 							presencePenalty: 0,
 							frequencyPenalty: 0,
-							stop: ["#"]
+							stop: ["#","\n"]
 						});
 						editor.edit(editBuilder => {
-							editBuilder.insert(selection.start, "\n#" + gptResponse.data.choices[0].text.replace("code above","code below"));
+							editBuilder.insert(selection.start, "#" + gptResponse.data.choices[0].text.replace("code above","code below") + "\n");
 						});
 					})();
 				}
