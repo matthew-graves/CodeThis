@@ -2,7 +2,7 @@
 	"name": "explain-this",
 	"displayName": "Explain This",
 	"description": "Explain Code using OpenAI's Codex Model",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"engines": {
 		"vscode": "^1.60.0"
 	},
@@ -10,29 +10,41 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:explain-this.explainThis"
+		"onCommand:explain-this.explainThisSingleLine",
+		"onCommand:explain-this.explainThisSingleSentence"
+
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "explain-this.explainThis",
-				"title": "Explain This",
+				"command": "explain-this.explainThisSingleLine",
+				"title": "ExplainThis! with a Single Line Comment",
+				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+			},
+			{
+				"command": "explain-this.explainThisSingleSentence",
+				"title": "ExplainThis! with a Single Sentence",
 				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 			}
 		],
 		"menus": {
 			"editor/context": [
 				{
-					"command": "explain-this.explainThis",
+					"command": "explain-this.explainThisSingleLine",
 					"group": "explain-this@1",
+					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+				},
+				{
+					"command": "explain-this.explainThisSingleSentence",
+					"group": "explain-this@2",
 					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 				}
 			]
 		},
 		"configuration": {
 			"type": "object",
-			"title": "Explain This Configuration",
+			"title": "ExplainThis!",
 			"properties": {
 				"explainthis.apikey": {
 					"type": "string",
