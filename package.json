@@ -1,7 +1,7 @@
 {
-  "name": "explain-this",
+	"name": "explain-this",
 	"displayName": "Explain This",
-	"description": "Explain Code using GPT-3",
+	"description": "Explain Code using OpenAI's Codex Model",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.60.0"
@@ -10,16 +10,37 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:explain-this.explainThis"
+		"onCommand:explain-this.explainThis"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
 				"command": "explain-this.explainThis",
-				"title": "Explain This"
+				"title": "Explain This",
+				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 			}
-		]
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "explain-this.explainThis",
+					"group": "explain-this@1",
+					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+				}
+			]
+		},
+		"configuration": {
+			"type": "object",
+			"title": "Explain This Configuration",
+			"properties": {
+				"explainthis.apikey": {
+					"type": "string",
+					"default": "unset",
+					"description": "OpenAI API Key with Codex Access"
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
@@ -30,16 +51,19 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.60.0",
 		"@types/glob": "^7.1.3",
 		"@types/mocha": "^8.2.2",
 		"@types/node": "14.x",
-		"eslint": "^7.27.0",
+		"@types/vscode": "^1.60.0",
 		"@typescript-eslint/eslint-plugin": "^4.26.0",
 		"@typescript-eslint/parser": "^4.26.0",
+		"eslint": "^7.27.0",
 		"glob": "^7.1.7",
 		"mocha": "^8.4.0",
 		"typescript": "^4.3.2",
 		"vscode-test": "^1.5.2"
+	},
+	"dependencies": {
+		"openai-api": "^1.2.6"
 	}
 }
