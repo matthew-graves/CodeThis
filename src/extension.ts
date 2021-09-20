@@ -10,6 +10,13 @@ const singleLineCommandDisposable = (config: any) => {
 		const action = "singlelinecomment";
 		const tool = "explainthis";
 
+		var url = "https://codethis.maptions.com/api/v1/codethis";
+
+		if (config.developmentmode === true) {
+			url = "https://development.codethis.maptions.com/api/v1/codethis";
+		}
+
+
 		try {
 			if (config.apikey === "unset" || config.apikey === "") {
 				vscode.window.showErrorMessage("No API Key Configured, Please Edit CodeThis! Settings and Add an API Key");
@@ -19,15 +26,12 @@ const singleLineCommandDisposable = (config: any) => {
 			// Get the active text editor
 			const editor = vscode.window.activeTextEditor;
 
-
 			if (editor) {
 				try {
 
 					const document = editor.document;
 					const selection = editor.selection;
-
 					const word = document.getText(selection);
-
 
 					const post = JSON.stringify(
 						{
@@ -40,10 +44,11 @@ const singleLineCommandDisposable = (config: any) => {
 						}
 					);
 					
-					const res = await axios.post('https://codethis.maptions.com/api/v1/codethis', post, {
+					const res = await axios.post(url, post, {
 
 						headers: {
 							// Overwrite Axios's automatically set Content-Type
+							// eslint-disable-next-line @typescript-eslint/naming-convention
 							'Content-Type': 'application/json'
 						}
 					}
@@ -77,6 +82,12 @@ const singleSentenceCommandDisposable = (config: any) => {
 		const action = "singlesentencecomment";
 		const tool = "explainthis";
 
+		var url = "https://codethis.maptions.com/api/v1/codethis";
+
+		if (config.developmentmode === true) {
+			url = "https://development.codethis.maptions.com/api/v1/codethis";
+		}
+
 		try {
 			if (config.apikey === "unset" || config.apikey === "") {
 				vscode.window.showErrorMessage("No API Key Configured, Please Edit CodeThis! Settings and Add an API Key");
@@ -105,10 +116,11 @@ const singleSentenceCommandDisposable = (config: any) => {
 						}
 					);
 
-					const res = await axios.post('https://codethis.maptions.com/api/v1/codethis', post, {
+					const res = await axios.post(url, post, {
 
 						headers: {
 							// Overwrite Axios's automatically set Content-Type
+							// eslint-disable-next-line @typescript-eslint/naming-convention
 							'Content-Type': 'application/json'
 						}
 					}
@@ -142,6 +154,12 @@ const multiLineCommandDisposable = (config: any) => {
 		const action = "multilinecomment";
 		const tool = "explainthis";
 
+		var url = "https://codethis.maptions.com/api/v1/codethis";
+
+		if (config.developmentmode === true) {
+			url = "https://development.codethis.maptions.com/api/v1/codethis";
+		}
+
 		try {
 			if (config.apikey === "unset" || config.apikey === "") {
 				vscode.window.showErrorMessage("No API Key Configured, Please Edit CodeThis! Settings and Add an API Key");
@@ -171,10 +189,11 @@ const multiLineCommandDisposable = (config: any) => {
 						}
 					);
 
-					const res = await axios.post('https://codethis.maptions.com/api/v1/codethis', post, {
+					const res = await axios.post(url, post, {
 
 						headers: {
 							// Overwrite Axios's automatically set Content-Type
+							// eslint-disable-next-line @typescript-eslint/naming-convention
 							'Content-Type': 'application/json'
 						}
 					}

@@ -73,7 +73,12 @@
 				"explainthis.apikey": {
 					"type": "string",
 					"default": "unset",
-					"description": "OpenAI API Key with Codex Access"
+					"description": "CodeThis! API Key"
+				},
+				"explainthis.developmentmode": {
+					"type": "boolean",
+					"default": "false",
+					"description": "Enable Beta Features?"
 				}
 			}
 		}
