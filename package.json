@@ -4,6 +4,7 @@
 	"publisher": "Maptions",
 	"description": "Coding Enhancement Tools, Powered By OpenAI",
 	"version": "0.0.2",
+	"repository": "N/A",
 	"private": "true",
 	"engines": {
 		"vscode": "^1.60.0"
