@@ -1,19 +1,24 @@
 import * as vscode from 'vscode';
-import * as OpenAI from "openai-api";
+import axios from "axios";
+import * as Axios from 'axios';
 
 
 const singleLineCommandDisposable = (config: any) => {
 
-	return vscode.commands.registerCommand('explain-this.explainThisSingleLine', async () => {
+	return vscode.commands.registerCommand('code-this.explainThisSingleLine', async () => {
+
+		const action = "singlelinecomment";
+		const tool = "explainthis";
 
 		try {
 			if (config.apikey === "unset" || config.apikey === "") {
-				vscode.window.showErrorMessage("No API Key Configured, please edit settings.json File and add an API Key");
+				vscode.window.showErrorMessage("No API Key Configured, Please Edit CodeThis! Settings and Add an API Key");
 				return false;
 			}
-			const client = new OpenAI(config.apikey);
+
 			// Get the active text editor
 			const editor = vscode.window.activeTextEditor;
+
 
 			if (editor) {
 				try {
@@ -23,21 +28,34 @@ const singleLineCommandDisposable = (config: any) => {
 
 					const word = document.getText(selection);
 
-					(async () => {
-						const gptResponse = await client.complete({
-							engine: 'davinci-codex',
-							prompt: word + '\n\n# Explanation of what the code above does\n\n#',
-							maxTokens: 2048,
-							temperature: 0,
-							topP: 1,
-							presencePenalty: 0,
-							frequencyPenalty: 0,
-							stop: ["#", "\n"]
-						});
-						editor.edit(editBuilder => {
-							editBuilder.insert(selection.start, "#" + gptResponse.data.choices[0].text.replace("code above", "code below") + "\n");
-						});
-					})();
+
+					const post = JSON.stringify(
+						{
+							id: vscode.env.machineId,
+							authtoken: "APITOKENGOESHERE",
+							code: word,
+							action: action,
+							requestedtool: tool,
+							language: vscode.window.activeTextEditor?.document.languageId,
+						}
+					);
+					
+					const res = await axios.post('https://codethis.maptions.com/api/v1/codethis', post, {
+
+						headers: {
+							// Overwrite Axios's automatically set Content-Type
+							'Content-Type': 'application/json'
+						}
+					}
+					);
+
+
+					let autosuggestion = res.data;
+
+					editor.edit(editBuilder => {
+						editBuilder.insert(selection.start, autosuggestion);
+					});
+
 				}
 				catch (err) {
 					console.log(err);
@@ -54,30 +72,19 @@ const singleLineCommandDisposable = (config: any) => {
 
 const singleSentenceCommandDisposable = (config: any) => {
 
-	return vscode.commands.registerCommand('explain-this.explainThisSingleSentence', async () => {
+	return vscode.commands.registerCommand('code-this.explainThisSingleSentence', async () => {
 
-		function formatText(inputText: string) {
-
-			let outputText = "#" + inputText;
-			outputText = outputText.replace(new RegExp("code above", "g"), "code below") + "\n";
-			if (outputText.replace(".", "").length > 1) {
-				outputText = (outputText.split(".", 2)).toString();
-				outputText.replace(".", ",");
-			}
-			
-			return outputText + "\n";
-
-		}
+		const action = "singlesentencecomment";
+		const tool = "explainthis";
 
 		try {
 			if (config.apikey === "unset" || config.apikey === "") {
-				vscode.window.showErrorMessage("No API Key Configured, please edit settings.json File and add an API Key");
+				vscode.window.showErrorMessage("No API Key Configured, Please Edit CodeThis! Settings and Add an API Key");
 				return false;
 			}
-			const client = new OpenAI(config.apikey);
+
 			// Get the active text editor
 			const editor = vscode.window.activeTextEditor;
-
 			if (editor) {
 				try {
 
@@ -86,22 +93,34 @@ const singleSentenceCommandDisposable = (config: any) => {
 
 					const word = document.getText(selection);
 
-					(async () => {
-						const gptResponse = await client.complete({
-							engine: 'davinci-codex',
-							prompt: word + '\n\n# Explanation of what the code above does\n\n#',
-							maxTokens: 2048,
-							temperature: 0,
-							topP: 1,
-							presencePenalty: 0,
-							frequencyPenalty: 0,
-							stop: ["#", "\n",]
-						});
-						editor.edit(editBuilder => {
-							editBuilder.insert(selection.start, formatText(gptResponse.data.choices[0].text));
-								
-						});
-					})();
+
+					const post = JSON.stringify(
+						{
+							id: vscode.env.machineId,
+							authtoken: "APITOKENGOESHERE",
+							code: word,
+							action: action,
+							requestedtool: tool,
+							language: vscode.window.activeTextEditor?.document.languageId,
+						}
+					);
+
+					const res = await axios.post('https://codethis.maptions.com/api/v1/codethis', post, {
+
+						headers: {
+							// Overwrite Axios's automatically set Content-Type
+							'Content-Type': 'application/json'
+						}
+					}
+					);
+
+
+					let autosuggestion = res.data;
+
+					editor.edit(editBuilder => {
+						editBuilder.insert(selection.start, autosuggestion);
+					});
+
 				}
 				catch (err) {
 					console.log(err);
@@ -118,21 +137,17 @@ const singleSentenceCommandDisposable = (config: any) => {
 
 const multiLineCommandDisposable = (config: any) => {
 
-	return vscode.commands.registerCommand('explain-this.explainThisMultiLine', async () => {
+	return vscode.commands.registerCommand('code-this.explainThisMultiLine', async () => {
 
-		function formatText(inputText: string) {
-			let outputText = '"""\n1.' + inputText
-			outputText = outputText.replace(new RegExp("code above", "g"), "code below") + "\n";		
-			return outputText + '"""\n';
-
-		}
+		const action = "multilinecomment";
+		const tool = "explainthis";
 
 		try {
 			if (config.apikey === "unset" || config.apikey === "") {
-				vscode.window.showErrorMessage("No API Key Configured, please edit settings.json File and add an API Key");
+				vscode.window.showErrorMessage("No API Key Configured, Please Edit CodeThis! Settings and Add an API Key");
 				return false;
 			}
-			const client = new OpenAI(config.apikey);
+
 			// Get the active text editor
 			const editor = vscode.window.activeTextEditor;
 
@@ -144,22 +159,34 @@ const multiLineCommandDisposable = (config: any) => {
 
 					const word = document.getText(selection);
 
-					(async () => {
-						const gptResponse = await client.complete({
-							engine: 'davinci-codex',
-							prompt: word + '\n\n"""\nHere\'s what the above code is doing:\n1.',
-							maxTokens: 2048,
-							temperature: 0,
-							topP: 1,
-							presencePenalty: 0,
-							frequencyPenalty: 0,
-							stop: ['"""',]
-						});
-						editor.edit(editBuilder => {
-							editBuilder.insert(selection.start, formatText(gptResponse.data.choices[0].text));
-								
-						});
-					})();
+
+					const post = JSON.stringify(
+						{
+							id: vscode.env.machineId,
+							authtoken: "APITOKENGOESHERE",
+							code: word,
+							action: action,
+							requestedtool: tool,
+							language: vscode.window.activeTextEditor?.document.languageId,
+						}
+					);
+
+					const res = await axios.post('https://codethis.maptions.com/api/v1/codethis', post, {
+
+						headers: {
+							// Overwrite Axios's automatically set Content-Type
+							'Content-Type': 'application/json'
+						}
+					}
+					);
+
+
+					let autosuggestion = res.data;
+
+					editor.edit(editBuilder => {
+						editBuilder.insert(selection.start, autosuggestion);
+					});
+
 				}
 				catch (err) {
 					console.log(err);

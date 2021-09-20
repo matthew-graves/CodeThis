@@ -1,8 +1,10 @@
 {
-	"name": "explain-this",
-	"displayName": "Explain This",
-	"description": "Explain Code using OpenAI's Codex Model",
+	"name": "code-this",
+	"displayName": "CodeThis!",
+	"publisher": "Maptions",
+	"description": "Coding Enhancement Tools, Powered By OpenAI",
 	"version": "0.0.2",
+	"private": "true",
 	"engines": {
 		"vscode": "^1.60.0"
 	},
@@ -10,26 +12,25 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:explain-this.explainThisSingleLine",
-		"onCommand:explain-this.explainThisSingleSentence",
-		"onCommand:explain-this.explainThisMultiLine"
-
+		"onCommand:code-this.explainThisSingleLine",
+		"onCommand:code-this.explainThisSingleSentence",
+		"onCommand:code-this.explainThisMultiLine"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "explain-this.explainThisSingleLine",
+				"command": "code-this.explainThisSingleLine",
 				"title": "ExplainThis! with a Single Line Comment",
 				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 			},
 			{
-				"command": "explain-this.explainThisSingleSentence",
+				"command": "code-this.explainThisSingleSentence",
 				"title": "ExplainThis! with a Single Sentence",
 				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 			},
 			{
-				"command": "explain-this.explainThisMultiLine",
+				"command": "code-this.explainThisMultiLine",
 				"title": "ExplainThis! with a Multiline Comment",
 				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 			}
@@ -37,25 +38,37 @@
 		"menus": {
 			"editor/context": [
 				{
-					"command": "explain-this.explainThisSingleLine",
-					"group": "explain-this@1",
+					"submenu": "code-this.explain-this",
+					"group": "code-this@1"
+				}
+			],
+			"code-this.explain-this": [
+				{
+					"command": "code-this.explainThisSingleLine",
+					"group": "code-this.explain-this@1",
 					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 				},
 				{
-					"command": "explain-this.explainThisSingleSentence",
-					"group": "explain-this@2",
+					"command": "code-this.explainThisSingleSentence",
+					"group": "code-this.explain-this@2",
 					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 				},
 				{
-					"command": "explain-this.explainThisMultiLine",
-					"group": "explain-this@3",
+					"command": "code-this.explainThisMultiLine",
+					"group": "code-this.explain-this@3",
 					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 				}
 			]
 		},
+		"submenus": [
+			{
+				"id": "code-this.explain-this",
+				"label": "ExplainThis!"
+			}
+		],
 		"configuration": {
 			"type": "object",
-			"title": "ExplainThis!",
+			"title": "CodeThis!",
 			"properties": {
 				"explainthis.apikey": {
 					"type": "string",
@@ -87,6 +100,6 @@
 		"vscode-test": "^1.5.2"
 	},
 	"dependencies": {
-		"openai-api": "^1.2.6"
+		"axios": "^0.21.4"
 	}
 }
