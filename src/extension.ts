@@ -2,6 +2,19 @@ import * as vscode from 'vscode';
 import axios from "axios";
 import * as Axios from 'axios';
 
+let myStatusBarItem: vscode.StatusBarItem;
+
+async function updateStatusBarItem(config: any) {
+	if (config.developmentmode) {
+		let res = await axios.get('https://development.codethis.maptions.com/isalive');
+		let version = res.data;
+		myStatusBarItem.text = `CodeThis!: ${version}`;
+		myStatusBarItem.show();
+	}
+	else {
+		myStatusBarItem.hide();
+	}
+}
 
 const singleLineCommandDisposable = (config: any) => {
 
@@ -43,7 +56,7 @@ const singleLineCommandDisposable = (config: any) => {
 							language: vscode.window.activeTextEditor?.document.languageId,
 						}
 					);
-					
+
 					const res = await axios.post(url, post, {
 
 						headers: {
@@ -229,4 +242,8 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 	disposable = multiLineCommandDisposable(vscode.workspace.getConfiguration('explainthis'));
 	context.subscriptions.push(disposable);
+	// create a new status bar item that we can now manage
+	myStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+	context.subscriptions.push(myStatusBarItem);
+	updateStatusBarItem(vscode.workspace.getConfiguration('explainthis'));
 }
