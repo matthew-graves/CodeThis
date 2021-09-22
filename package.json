@@ -15,7 +15,8 @@
 	"activationEvents": [
 		"onCommand:code-this.explainThisSingleLine",
 		"onCommand:code-this.explainThisSingleSentence",
-		"onCommand:code-this.explainThisMultiLine"
+		"onCommand:code-this.explainThisMultiLine",
+		"onCommand:code-this.testThisUnitTest"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -34,12 +35,21 @@
 				"command": "code-this.explainThisMultiLine",
 				"title": "ExplainThis! with a Multiline Comment",
 				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+			},
+			{
+				"command": "code-this.testThisUnitTest",
+				"title": "TestThis! with a Unit Test",
+				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 			}
 		],
 		"menus": {
 			"editor/context": [
 				{
 					"submenu": "code-this.explain-this",
+					"group": "code-this@1"
+				},
+				{
+					"submenu": "code-this.test-this",
 					"group": "code-this@1"
 				}
 			],
@@ -59,12 +69,23 @@
 					"group": "code-this.explain-this@3",
 					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 				}
+			],
+			"code-this.test-this": [
+				{
+					"command": "code-this.testThisUnitTest",
+					"group": "code-this.test-this@1",
+					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+				}
 			]
 		},
 		"submenus": [
 			{
 				"id": "code-this.explain-this",
 				"label": "ExplainThis!"
+			},
+			{
+				"id": "code-this.test-this",
+				"label": "TestThis!"
 			}
 		],
 		"configuration": {
