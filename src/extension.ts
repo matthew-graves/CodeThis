@@ -4,6 +4,8 @@ import { testThisDisposable } from './testthis';
 
 let myStatusBarItem: vscode.StatusBarItem;
 
+// Register all existing commands
+
 export function activate(context: vscode.ExtensionContext) {
 	let disposable: vscode.Disposable | null = null;
 	disposable = singleLineCommandDisposable(vscode.workspace.getConfiguration('explainthis'));

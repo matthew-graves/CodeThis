@@ -11,6 +11,8 @@ export const testThisDisposable = (config: any) => {
 
         let suggestion = await codeThisRequest(config, action, tool);
 
+            // First, it checks if the user has selected a suggestion. If they have, it will use the suggestion to generate the test.
+
         if (suggestion) {
             const uri = vscode.Uri.parse('untitled: Auto Generated Tests');
             vscode.workspace.openTextDocument(uri).then((a: vscode.TextDocument) => {
