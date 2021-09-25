@@ -16,7 +16,8 @@
 		"onCommand:code-this.explainThisSingleLine",
 		"onCommand:code-this.explainThisSingleSentence",
 		"onCommand:code-this.explainThisMultiLine",
-		"onCommand:code-this.testThisUnitTest"
+		"onCommand:code-this.testThisUnitTest",
+		"onCommand:code-this.writeThisCommentToCode"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -40,7 +41,13 @@
 				"command": "code-this.testThisUnitTest",
 				"title": "TestThis! with a Unit Test",
 				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+			},
+			{
+				"command": "code-this.writeThisCommentToCode",
+				"title": "WriteThis! Code from a Comment",
+				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 			}
+			
 		],
 		"menus": {
 			"editor/context": [
@@ -50,7 +57,11 @@
 				},
 				{
 					"submenu": "code-this.test-this",
-					"group": "code-this@1"
+					"group": "code-this@2"
+				},
+				{
+					"submenu": "code-this.write-this",
+					"group": "code-this@3"
 				}
 			],
 			"code-this.explain-this": [
@@ -76,6 +87,13 @@
 					"group": "code-this.test-this@1",
 					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 				}
+			],
+			"code-this.write-this": [
+				{
+					"command": "code-this.writeThisCommentToCode",
+					"group": "code-this.write-this@1",
+					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+				}
 			]
 		},
 		"submenus": [
@@ -86,21 +104,30 @@
 			{
 				"id": "code-this.test-this",
 				"label": "TestThis!"
+			},
+			{
+				"id": "code-this.write-this",
+				"label": "WriteThis!"
 			}
 		],
 		"configuration": {
 			"type": "object",
 			"title": "CodeThis!",
 			"properties": {
-				"explainthis.apikey": {
+				"codethis.apikey": {
 					"type": "string",
 					"default": "unset",
 					"description": "CodeThis! API Key"
 				},
-				"explainthis.developmentmode": {
+				"codethis.developmentmode": {
 					"type": "boolean",
 					"default": "false",
 					"description": "Enable Beta Features?"
+				},
+				"codethis.isfun": {
+					"type": "boolean",
+					"default": "false",
+					"description": "Fun Loading Messages?"
 				}
 			}
 		}
