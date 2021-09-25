@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 
 import axios from "axios";
 import * as Axios from 'axios';
-import { stringify } from 'querystring';
 
 export async function codeThisRequest(config: any, action: string, tool: string) {
 
@@ -11,7 +10,6 @@ export async function codeThisRequest(config: any, action: string, tool: string)
     if (config.developmentmode === true) {
         url = "https://development.codethis.maptions.com/api/v1/codethis";
     }
-
 
     try {
         if (config.apikey === "unset" || config.apikey === "") {
