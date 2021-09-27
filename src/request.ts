@@ -15,12 +15,13 @@ function getLoadingMessage(fun: boolean) {
 }
 
 
-export async function codeThisRequest(config: any, action: string, tool: string) {
+export async function codeThisRequest(config: any, action: string, tool: string, newlanguage: string = "") {
 
     var url = "https://codethis.maptions.com/api/v1/codethis";
 
     if (config.developmentmode === true) {
-        url = "https://development.codethis.maptions.com/api/v1/codethis";
+        // url = "https://development.codethis.maptions.com/api/v1/codethis";
+        url = "http://localhost:8080/api/v1/codethis";
     }
 
     try {
@@ -39,16 +40,20 @@ export async function codeThisRequest(config: any, action: string, tool: string)
                 const selection = editor.selection;
                 const word = document.getText(selection);
 
-                const post = JSON.stringify(
-                    {
-                        id: vscode.env.machineId,
-                        authtoken: "APITOKENGOESHERE",
-                        code: word,
-                        action: action,
-                        requestedtool: tool,
-                        language: vscode.window.activeTextEditor?.document.languageId,
-                    }
-                );
+                let postData = {
+                    id: vscode.env.machineId,
+                    authtoken: "APITOKENGOESHERE",
+                    code: word,
+                    action: action,
+                    requestedtool: tool,
+                    language: vscode.window.activeTextEditor?.document.languageId,
+                };
+
+                if (tool === "translatethis") {
+                    postData["newlanguage"] = newlanguage;
+                }
+
+                const post = JSON.stringify(postData);
 
                 var res = await vscode.window.withProgress({
                     location: vscode.ProgressLocation.Window,
@@ -84,6 +89,8 @@ export async function codeThisRequest(config: any, action: string, tool: string)
                             editBuilder.insert(selection.start, autosuggestion);
                         });
                     } else if (action.includes('test')) {
+                        return autosuggestion;
+                    } else if (action.includes('translate')) {
                         return autosuggestion;
                     } else {
                         return null;

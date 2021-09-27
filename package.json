@@ -3,7 +3,7 @@
 	"displayName": "CodeThis!",
 	"publisher": "Maptions",
 	"description": "Coding Enhancement Tools, Powered By OpenAI",
-	"version": "0.0.2",
+	"version": "0.0.4",
 	"repository": "N/A",
 	"private": "true",
 	"engines": {
@@ -17,7 +17,8 @@
 		"onCommand:code-this.explainThisSingleSentence",
 		"onCommand:code-this.explainThisMultiLine",
 		"onCommand:code-this.testThisUnitTest",
-		"onCommand:code-this.writeThisCommentToCode"
+		"onCommand:code-this.writeThisCommentToCode",
+		"onCommand:code-this.translateThisCode"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -46,8 +47,12 @@
 				"command": "code-this.writeThisCommentToCode",
 				"title": "WriteThis! Code from a Comment",
 				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+			},
+			{
+				"command": "code-this.translateThisCode",
+				"title": "TranslateThis! to Another (Programming) Language",
+				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 			}
-			
 		],
 		"menus": {
 			"editor/context": [
@@ -62,6 +67,10 @@
 				{
 					"submenu": "code-this.write-this",
 					"group": "code-this@3"
+				},
+				{
+					"submenu": "code-this.translate-this",
+					"group": "code-this@4"
 				}
 			],
 			"code-this.explain-this": [
@@ -94,6 +103,13 @@
 					"group": "code-this.write-this@1",
 					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 				}
+			],
+			"code-this.translate-this": [
+				{
+					"command": "code-this.translateThisCode",
+					"group": "code-this.translate-this@1",
+					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+				}
 			]
 		},
 		"submenus": [
@@ -108,6 +124,10 @@
 			{
 				"id": "code-this.write-this",
 				"label": "WriteThis!"
+			},
+			{
+				"id": "code-this.translate-this",
+				"label": "TranslateThis!"
 			}
 		],
 		"configuration": {
