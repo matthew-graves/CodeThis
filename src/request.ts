@@ -21,7 +21,7 @@ export async function codeThisRequest(config: any, action: string, tool: string,
 
     if (config.developmentmode === true) {
         // url = "https://development.codethis.maptions.com/api/v1/codethis";
-        url = "http://localhost:8080/api/v1/codethis";
+        url = "https://development.codethis.maptions.com/api/v1/codethis";
     }
 
     try {

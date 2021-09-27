@@ -19,7 +19,6 @@ export function activate(context: vscode.ExtensionContext) {
 		testThisDisposable(config),
 		writeThisDisposable(config),
 		translateThisDisposable(config),
-		singleLineCommandDisposable(config),
 	);
 	
 	// create a new status bar item that we can now manage
