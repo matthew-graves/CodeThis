@@ -15,13 +15,13 @@ function getLoadingMessage(fun: boolean) {
 }
 
 
-export async function codeThisRequest(config: any, action: string, tool: string, newlanguage: string = "") {
+export async function codeThisRequest(config: any, action: string, tool: string, newlanguage: string = "", explanation = "") {
 
     var url = "https://codethis.maptions.com/api/v1/codethis";
 
     if (config.developmentmode === true) {
         // url = "https://development.codethis.maptions.com/api/v1/codethis";
-        url = "https://development.codethis.maptions.com/api/v1/codethis";
+        url = "http://localhost:8080/api/v1/codethis";
     }
 
     try {
@@ -42,7 +42,7 @@ export async function codeThisRequest(config: any, action: string, tool: string,
 
                 let postData = {
                     id: vscode.env.machineId,
-                    authtoken: "APITOKENGOESHERE",
+                    authtoken: config.apikey,
                     code: word,
                     action: action,
                     requestedtool: tool,
@@ -50,7 +50,17 @@ export async function codeThisRequest(config: any, action: string, tool: string,
                 };
 
                 if (tool === "translatethis") {
+                    if (newlanguage === "") {
+                        throw new Error('no input provided');
+                    }
                     postData["newlanguage"] = newlanguage;
+                }
+
+                if (tool === "fixthis") {
+                    if (explanation === "") {
+                        throw new Error('no input provided');
+                    }
+                    postData["explanation"] = explanation;
                 }
 
                 const post = JSON.stringify(postData);
@@ -92,7 +102,10 @@ export async function codeThisRequest(config: any, action: string, tool: string,
                         return autosuggestion;
                     } else if (action.includes('translate')) {
                         return autosuggestion;
-                    } else {
+                    } else if (action.includes('fix')) {
+                        return autosuggestion;
+                    }
+                    else {
                         return null;
                     }
                 }

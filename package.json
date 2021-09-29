@@ -18,7 +18,8 @@
 		"onCommand:code-this.explainThisMultiLine",
 		"onCommand:code-this.testThisUnitTest",
 		"onCommand:code-this.writeThisCommentToCode",
-		"onCommand:code-this.translateThisCode"
+		"onCommand:code-this.translateThisCode",
+		"onCommand:code-this.fixThisCode"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -52,6 +53,11 @@
 				"command": "code-this.translateThisCode",
 				"title": "TranslateThis! to Another (Programming) Language",
 				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+			},
+			{
+				"command": "code-this.fixThisCode",
+				"title": "FixThis! bug ",
+				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 			}
 		],
 		"menus": {
@@ -71,6 +77,10 @@
 				{
 					"submenu": "code-this.translate-this",
 					"group": "code-this@4"
+				},
+				{
+					"submenu": "code-this.fix-this",
+					"group": "code-this@5"
 				}
 			],
 			"code-this.explain-this": [
@@ -110,6 +120,13 @@
 					"group": "code-this.translate-this@1",
 					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 				}
+			],
+			"code-this.fix-this": [
+				{
+					"command": "code-this.fixThisCode",
+					"group": "code-this.fix-this@1",
+					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+				}
 			]
 		},
 		"submenus": [
@@ -128,6 +145,10 @@
 			{
 				"id": "code-this.translate-this",
 				"label": "TranslateThis!"
+			},
+			{
+				"id": "code-this.fix-this",
+				"label": "FixThis!"
 			}
 		],
 		"configuration": {
