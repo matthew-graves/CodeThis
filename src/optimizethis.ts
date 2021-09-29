@@ -2,19 +2,19 @@ import * as vscode from 'vscode';
 
 import { codeThisRequest } from './request';
 
-export const writeThisDisposable = (config: any) => {
+export const optimizeThisDisposable = (config: any) => {
 
-    return vscode.commands.registerCommand('code-this.writeThisCommentToCode', async () => {
+    return vscode.commands.registerCommand('code-this.optimizeThisCode', async () => {
 
-        const action = "writethis";
-        const tool = "writethis";
+        const action = "optimizethis";
+        const tool = "optimizethis";
 
         let suggestion = await codeThisRequest(config, action, tool);
 
             // First, it checks if the user has selected a suggestion. If they have, it will use the suggestion to generate the test.
 
         if (suggestion) {
-            const uri = vscode.Uri.parse('untitled: Suggested Code');
+            const uri = vscode.Uri.parse('untitled: Optimized Code Suggestion');
             vscode.workspace.openTextDocument(uri).then((a: vscode.TextDocument) => {
                 vscode.window.showTextDocument(a, vscode.ViewColumn.Beside, false).then(e => {
                     e.edit(edit => {

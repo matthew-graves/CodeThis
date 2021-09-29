@@ -19,7 +19,8 @@
 		"onCommand:code-this.testThisUnitTest",
 		"onCommand:code-this.writeThisCommentToCode",
 		"onCommand:code-this.translateThisCode",
-		"onCommand:code-this.fixThisCode"
+		"onCommand:code-this.fixThisCode",
+		"onCommand:code-this.optimizeThisCode"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -58,6 +59,11 @@
 				"command": "code-this.fixThisCode",
 				"title": "FixThis! bug ",
 				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+			},
+			{
+				"command": "code-this.optimizeThisCode",
+				"title": "OptimizeThis! Code ",
+				"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 			}
 		],
 		"menus": {
@@ -81,6 +87,10 @@
 				{
 					"submenu": "code-this.fix-this",
 					"group": "code-this@5"
+				},
+				{
+					"submenu": "code-this.optimize-this",
+					"group": "code-this@6"
 				}
 			],
 			"code-this.explain-this": [
@@ -127,6 +137,13 @@
 					"group": "code-this.fix-this@1",
 					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
 				}
+			],			
+			"code-this.optimize-this": [
+				{
+					"command": "code-this.optimizeThisCode",
+					"group": "code-this.optimize-this@1",
+					"when": "editorTextFocus && editorHasSelection && !editorHasMultipleSelections"
+				}
 			]
 		},
 		"submenus": [
@@ -149,6 +166,10 @@
 			{
 				"id": "code-this.fix-this",
 				"label": "FixThis!"
+			},
+			{
+				"id": "code-this.optimize-this",
+				"label": "OptimizeThis!"
 			}
 		],
 		"configuration": {
@@ -169,6 +190,11 @@
 					"type": "boolean",
 					"default": "false",
 					"description": "Fun Loading Messages?"
+				},
+				"codethis.islocal": {
+					"type": "boolean",
+					"default": "false",
+					"description": "Please ensure this is turned off"
 				}
 			}
 		}

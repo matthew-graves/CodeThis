@@ -20,7 +20,10 @@ export async function codeThisRequest(config: any, action: string, tool: string,
     var url = "https://codethis.maptions.com/api/v1/codethis";
 
     if (config.developmentmode === true) {
-        // url = "https://development.codethis.maptions.com/api/v1/codethis";
+        url = "https://development.codethis.maptions.com/api/v1/codethis";
+    } 
+
+    if (config.developmentmode === true && config.islocal) {
         url = "http://localhost:8080/api/v1/codethis";
     }
 
@@ -92,21 +95,12 @@ export async function codeThisRequest(config: any, action: string, tool: string,
 
                     let autosuggestion = res.data;
 
-                    if (action.includes('commenttocode')) {
-                        return autosuggestion;
-                    } else if (action.includes('comment')) {
+                    if (action.includes('comment')) {
                         editor.edit(editBuilder => {
                             editBuilder.insert(selection.start, autosuggestion);
                         });
-                    } else if (action.includes('test')) {
+                    } else {
                         return autosuggestion;
-                    } else if (action.includes('translate')) {
-                        return autosuggestion;
-                    } else if (action.includes('fix')) {
-                        return autosuggestion;
-                    }
-                    else {
-                        return null;
                     }
                 }
 
