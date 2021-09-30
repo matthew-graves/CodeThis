@@ -178,22 +178,22 @@
 			"properties": {
 				"codethis.apikey": {
 					"type": "string",
-					"default": "unset",
+					"default": "",
 					"description": "CodeThis! API Key"
 				},
 				"codethis.developmentmode": {
 					"type": "boolean",
-					"default": "false",
+					"default": true,
 					"description": "Enable Beta Features?"
 				},
 				"codethis.isfun": {
 					"type": "boolean",
-					"default": "false",
+					"default": true,
 					"description": "Fun Loading Messages?"
 				},
 				"codethis.islocal": {
 					"type": "boolean",
-					"default": "false",
+					"default": false,
 					"description": "Please ensure this is turned off"
 				}
 			}
